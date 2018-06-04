@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         tabLayout= (TabLayout) findViewById(R.id.mTab_ID);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setupWithViewPager(mViewPager);
-        tabLayout.setOnTabSelectedListener(this);
 
     }
 
@@ -58,6 +57,13 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     {
         MyPagerAdapter pagerAdapter=new MyPagerAdapter(this.getSupportFragmentManager());
         pagerAdapter.addFragment(new FruitsFragment());
+        pagerAdapter.addFragment(new VegetablesFragment());
+        pagerAdapter.addFragment(new FrozenFragment());
+        pagerAdapter.addFragment(new OrganicsFragment());
+        pagerAdapter.addFragment(new FastfoodFragment());
+        pagerAdapter.addFragment(new SnacksFragment());
+        pagerAdapter.addFragment(new DryfruitsFragment());
+        pagerAdapter.addFragment(new SpicesFragment());
 
 
         //SET ADAPTER TO VP
