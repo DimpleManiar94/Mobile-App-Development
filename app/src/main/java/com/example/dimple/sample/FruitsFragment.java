@@ -21,7 +21,7 @@ public class FruitsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fruits_fragment, container, false);
         ListView lv = (ListView) rootView.findViewById(R.id.fruitsListView);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(inflater.getContext(), R.layout.fruits_fragment, fruits);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(inflater.getContext(), R.layout.list_item_layout, fruits);
         lv.setAdapter(adapter);
 
         return rootView;
