@@ -1,5 +1,6 @@
 package com.example.dimple.sample;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -26,36 +28,40 @@ import static android.content.ContentValues.TAG;
 public class DryfruitsFragment extends Fragment{
 
     FirebaseDatabase mFireBaseDatabase;
-    DatabaseReference databaseDryFruits;
+    Query databaseDryFruits;
+    private Context context;
+    ListView lv;
 
-    private String dryfruits[] = {"apple", "banana"};
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mFireBaseDatabase = FirebaseDatabase.getInstance();
-        databaseDryFruits = mFireBaseDatabase.getReference();
-
         setUpDatabase();
-
         View rootView = inflater.inflate(R.layout.dryfruits_fragment, container, false);
-        ListView lv = (ListView) rootView.findViewById(R.id.dryfruitsListView);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(inflater.getContext(), R.layout.list_item_layout, dryfruits);
-        lv.setAdapter(adapter);
+        lv = (ListView) rootView.findViewById(R.id.dryfruitsListView);
+        context = inflater.getContext();
+        setUpDatabase();
 
         return rootView;
     }
 
     private void setUpDatabase(){
+        mFireBaseDatabase = FirebaseDatabase.getInstance();
+        databaseDryFruits = mFireBaseDatabase.getReference("product").orderByChild("ptid")
+                .equalTo("dryfruits");
 
 
-        databaseDryFruits.child("product").orderByChild("ptid").equalTo("fruits").addValueEventListener(new ValueEventListener() {
+        databaseDryFruits.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<String> names = new ArrayList<String>();
-                for (DataSnapshot shot: dataSnapshot.getChildren()) {
-                    String name = shot.child("pname").getValue(String.class);
-                    names.add(name);
+                List<String> fruits = new ArrayList<>();
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    fruits.add(snapshot.child("pname").getValue(String.class));
                 }
+
+                String[] dryfruits = new String[fruits.size()];
+                fruits.toArray(dryfruits);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.list_item_layout, dryfruits);
+                lv.setAdapter(adapter);
             }
 
             @Override
@@ -65,11 +71,6 @@ public class DryfruitsFragment extends Fragment{
             }
         });
 
-
-    }
-
-    private String[] getDryfruits(){
-        return dryfruits;
 
     }
 
