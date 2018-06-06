@@ -1,5 +1,8 @@
 package com.example.dimple.sample;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -17,20 +20,38 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
 
     private ViewPager mViewPager;
     private TabLayout tabLayout;
+    private ListView usersList;
+    private ArrayList<String> listItems = new ArrayList<>();
+    private ArrayAdapter<String> adapter;
+    private Button btn_shop;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = MainActivity.this;
+
+        usersList = findViewById(R.id.usersList);
+        adapter = new ArrayAdapter<String>(this, R.layout.list_item_layout, listItems);
+        usersList.setAdapter(adapter);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,6 +73,36 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         tabLayout= (TabLayout) findViewById(R.id.mTab_ID);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setupWithViewPager(mViewPager);
+
+        btn_shop = findViewById(R.id.shopbtn);
+        btn_shop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(context); //Read Update
+                alertDialog.setTitle("List Name");
+                alertDialog.setMessage("Name your list");
+                final EditText input = new EditText(MainActivity.this);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                input.setLayoutParams(lp);
+                alertDialog.setView(input);
+                alertDialog.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String listName = input.getText().toString();
+                    }
+                });
+
+                alertDialog.show();
+            }
+        });
+
+    }
+
+    public void getDataFromFragment(String item){
+        listItems.add(item);
+        adapter.notifyDataSetChanged();
 
     }
 
