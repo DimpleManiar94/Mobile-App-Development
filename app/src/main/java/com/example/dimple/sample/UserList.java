@@ -6,11 +6,18 @@ public class UserList {
 
     private String listName;
     private int userID;
-    private ArrayList<String> listItems;
+    private ArrayList<ListItem> listItems = new ArrayList<ListItem>();
 
-    public void UserList(){
+    public UserList(){
 
     }
+
+    public UserList(String listName){
+        this.listName = listName;
+    }
+
+
+
     public String getListName(){
         return listName;
     }
@@ -19,11 +26,11 @@ public class UserList {
         this.listName = listName;
     }
 
-    public ArrayList<String> getListItems() {
+    public ArrayList<ListItem> getListItems() {
         return listItems;
     }
 
-    public void setListItems(ArrayList<String> listItems) {
+    public void setListItems(ArrayList<ListItem> listItems) {
         this.listItems = listItems;
     }
 

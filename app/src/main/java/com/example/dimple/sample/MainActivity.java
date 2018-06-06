@@ -28,6 +28,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private TabLayout tabLayout;
     private ListView usersList;
     private ArrayList<String> listItems = new ArrayList<>();
-    private ArrayAdapter<String> adapter;
+    private MyCustomAdapter adapter;
     private Button btn_shop;
     private Context context;
 
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         context = MainActivity.this;
 
         usersList = findViewById(R.id.usersList);
-        adapter = new ArrayAdapter<String>(this, R.layout.list_item_layout, listItems);
+        adapter = new MyCustomAdapter(listItems, this);
         usersList.setAdapter(adapter);
 
 
@@ -91,6 +93,18 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String listName = input.getText().toString();
+                        UserList list = new UserList(listName);
+                        for(String item: listItems){
+                            ListItem item1 = new ListItem(item);
+                            list.getListItems().add(item1);
+
+                        }
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+
+                        DatabaseReference myRef = database.getReference("userList").push();
+
+                        myRef.setValue(list);
                     }
                 });
 
