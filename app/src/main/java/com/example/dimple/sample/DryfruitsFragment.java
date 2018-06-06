@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -35,12 +36,11 @@ public class DryfruitsFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        setUpDatabase();
         View rootView = inflater.inflate(R.layout.dryfruits_fragment, container, false);
         lv = (ListView) rootView.findViewById(R.id.dryfruitsListView);
         context = inflater.getContext();
         setUpDatabase();
-
+        setUpItemListener();
         return rootView;
     }
 
@@ -60,6 +60,7 @@ public class DryfruitsFragment extends Fragment{
 
                 String[] dryfruits = new String[fruits.size()];
                 fruits.toArray(dryfruits);
+                System.out.println(dryfruits);
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.list_item_layout, dryfruits);
                 lv.setAdapter(adapter);
             }
@@ -72,6 +73,17 @@ public class DryfruitsFragment extends Fragment{
         });
 
 
+    }
+
+    private void setUpItemListener(){
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = (String) parent.getItemAtPosition(position);
+                ((MainActivity) getActivity()).getDataFromFragment(selectedItem);
+
+            }
+        });
     }
 
     @Override
