@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private TabLayout tabLayout;
     private ListView usersList;
     private ArrayList<String> listItems = new ArrayList<>();
-    private ArrayAdapter<String> adapter;
+    private MyCustomAdapter adapter;
     private Button btn_shop;
     private Context context;
 
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         context = MainActivity.this;
 
         usersList = findViewById(R.id.usersList);
-        adapter = new ArrayAdapter<String>(this, R.layout.list_item_layout, listItems);
+        adapter = new MyCustomAdapter(listItems, this);
         usersList.setAdapter(adapter);
 
 
