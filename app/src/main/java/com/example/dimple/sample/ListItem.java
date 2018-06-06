@@ -3,7 +3,11 @@ package com.example.dimple.sample;
 public class ListItem {
     private String item;
 
-    public void ListItem(String item){
+    public ListItem(){
+
+    }
+
+    public ListItem(String item){
         this.item = item;
     }
 

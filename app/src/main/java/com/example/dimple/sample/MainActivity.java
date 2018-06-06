@@ -28,6 +28,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -91,6 +93,18 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String listName = input.getText().toString();
+                        UserList list = new UserList(listName);
+                        for(String item: listItems){
+                            ListItem item1 = new ListItem(item);
+                            list.getListItems().add(item1);
+
+                        }
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+
+                        DatabaseReference myRef = database.getReference("userList").push();
+
+                        myRef.setValue(list);
                     }
                 });
 
