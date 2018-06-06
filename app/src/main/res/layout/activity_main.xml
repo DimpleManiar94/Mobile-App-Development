@@ -11,8 +11,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:paddingTop="@dimen/appbar_padding_top"
+        android:layout_height="?attr/actionBarSize"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -27,10 +26,20 @@
 
         </android.support.v7.widget.Toolbar>
 
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout= "@layout/content_main"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="vertical">
+
         <ListView
             android:id="@+id/usersList"
             android:layout_width="match_parent"
-            android:layout_height="200dp"></ListView>
+            android:layout_height="200dp" />
 
         <Button
             android:id="@+id/shopbtn"
@@ -43,17 +52,20 @@
             android:id="@+id/mTab_ID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabMode="scrollable"></android.support.design.widget.TabLayout>
+            app:tabBackground="@color/colorPrimary"
+            app:tabTextColor="@android:color/white"
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabMode="scrollable" />
 
-    </android.support.design.widget.AppBarLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/mViewPager_ID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <include layout= "@layout/content_main"/>
+    </LinearLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/mViewPager_ID"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
